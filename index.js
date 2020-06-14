@@ -340,9 +340,8 @@ function toArray (what) {
  * @see http://fightingforalostcause.net/misc/2006/compare-email-regex.php
  */
 
-var emailrgx = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-zрф]{2,6})|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
-
 var capturergx = /<([^>].*)>$/;
+var isEmail = require('sane-email-validation');
 
 /**
  * Determines if `rawAddress` is a valid email address.
@@ -355,8 +354,8 @@ function isValidAddress (rawAddress) {
   // john smith <email@domain.com> | email@domain.com
   var address = capturergx.exec(rawAddress);
   return address && address[1]
-    ? emailrgx.test(address[1])
-    : emailrgx.test(rawAddress);
+    ? isEmail(address[1])
+    : isEmail(rawAddress);
 }
 
 /**
